@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth Scanner</title>
+    <script>
+        async function fetchDevices() {
+            const response = await fetch('/scan');
+            const devices = await response.json();
+            let tableContent = "<tr><th>Name</th><th>Address</th><th>Distance</th></tr>";
+
+            devices.forEach(device => {
+                tableContent += `<tr>
+                    <td>${device.name}</td>
+                    <td>${device.address}</td>
+                    <td>${device.estimated_distance}</td>
+                </tr>`;
+            });
+
+            document.getElementById("deviceTable").innerHTML = tableContent;
+        }
+
+        // Fetch devices every 5 seconds
+        setInterval(fetchDevices, 5000);
+    </script>
+</head>
+<body>
+    <h1>Bluetooth Scanner</h1>
+    <table id="deviceTable" border="1"></table>
+</body>
+</html>
